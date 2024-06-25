@@ -1,20 +1,16 @@
 import pygame, sys
 import drawChess
+import pieces
+
 pygame.init()
 
 screen = pygame.display.set_mode((640, 480))
 # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
-WhitePawn = 1
-WhiteRook = 2
-WhiteBishop = 2
-WhiteRook = 2
-WhiteRook = 2
-
-chessBoard = [8, 8]
+board = drawChess.chessBoard()
 
 def render():
-    drawChess.drawBoard(screen)
+    board.drawBoard(screen)
 
 pygame.display.set_caption("Hello World")
 while True:
