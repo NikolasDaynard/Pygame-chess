@@ -136,6 +136,14 @@ class King(Piece):
                             chessboard[self.x + offset[0]][self.y + offset[1]] = True
                     else:
                         chessboard[self.x + offset[0]][self.y + offset[1]] = False
+
+        for i in range(8):
+            for j in range(8):
+                for piece in pieces:
+                    if str(type(piece).__name__) != "King" and piece.color != self.color:
+                        otherTiles = piece.getVisibleTiles(pieces)
+                        if otherTiles[i][j] == True:
+                            chessboard[i][j] = False
         
         return chessboard
     
@@ -154,6 +162,8 @@ class Pawn(Piece):
             imagerenderer.renderImage(screen, 'aesprites/blackpawn.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
 
     def getVisibleTiles(self, pieces):
+
+
         chessboard = [[None for _ in range(8)] for _ in range(8)]
 
         # not gonna pretend these are ordered
@@ -173,6 +183,20 @@ class Pawn(Piece):
             for piece in pieces:
                 if helpers.is_in_bounds(self.x + offset[0], self.y + offset[1]):
                     if not(piece.x == self.x + offset[0] and piece.y == self.y + offset[1]):
+                        if chessboard[self.x + offset[0]][self.y + offset[1]] != False:
+                            chessboard[self.x + offset[0]][self.y + offset[1]] = True
+                    else:
+                        chessboard[self.x + offset[0]][self.y + offset[1]] = False
+
+        # tesy diags
+        if self.color == "white":
+            accessibleTileOffsets = [(1, -1), (-1, -1)]
+        else:
+            accessibleTileOffsets = [(1, 1), (-1, 1)]
+        for offset in accessibleTileOffsets:
+            for piece in pieces:
+                if helpers.is_in_bounds(self.x + offset[0], self.y + offset[1]):
+                    if (piece.x == self.x + offset[0] and piece.y == self.y + offset[1]):
                         if chessboard[self.x + offset[0]][self.y + offset[1]] != False:
                             chessboard[self.x + offset[0]][self.y + offset[1]] = True
                     else:

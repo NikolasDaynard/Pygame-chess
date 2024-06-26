@@ -1,3 +1,4 @@
+import random
 import pygame
 from images import imageRenderer
 import pieces
@@ -15,9 +16,11 @@ class chessBoard:
 
     image = imageRenderer()
 
-    def click(self, x, y):
+    def click(self, x, y, color):
         clickedPiece = False
         selectedPiece = None
+        moved = False
+
         for piece in self.playPieces:
             if piece.x == self.selectedSpace[0] and piece.y == self.selectedSpace[1]:
                 selectedPiece = piece
@@ -31,12 +34,18 @@ class chessBoard:
         
         for piece in self.playPieces:
             if (piece.x * helpers.boardSpaceSize) < x and (piece.x * helpers.boardSpaceSize) + helpers.boardSpaceSize > x and (piece.y * helpers.boardSpaceSize) < y and (piece.y * helpers.boardSpaceSize) + helpers.boardSpaceSize > y:
-                if visibleTiles[piece.x][piece.y] != None:
-                    piece.x = None
+                if piece.color == color:
+                    self.selectedSpace = (piece.x, piece.y)
+
+                if visibleTiles[piece.x][piece.y] != None and piece.color != color:
+                    self.playPieces.remove(piece)
+
                     selectedPiece.x = piece.x
                     selectedPiece.y = piece.y
+                    self.selectedSpace = (-1, -1)
+                    moved = True
+                    break
 
-                self.selectedSpace = (piece.x, piece.y)
                 clickedPiece = True
 
         if not clickedPiece:
@@ -47,7 +56,9 @@ class chessBoard:
                             visibleTiles[i][j] = None
                             selectedPiece.x = i
                             selectedPiece.y = j
+                            moved = True
             self.selectedSpace = (-1, -1)
+        return moved
 
                     
 
@@ -68,4 +79,4 @@ class chessBoard:
                 for i in range(8):
                     for j in range(8):
                         if visibleTiles[i][j] == True:
-                            pygame.draw.rect(screen, (127, 127, 127), (i * helpers.boardSpaceSize, j * helpers.boardSpaceSize, helpers.boardSpaceSize / 2, helpers.boardSpaceSize / 2))
+                            self.image.renderImage(screen, 'aesprites/clicker.png', i * helpers.boardSpaceSize, j * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
