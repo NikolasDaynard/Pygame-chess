@@ -17,7 +17,10 @@ class Rook(Piece):
         print("not done")
 
     def render(self, screen, imagerenderer):
-        imagerenderer.renderImage(screen, 'aesprites/rookwhite.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
+        if self.color == "white":
+            imagerenderer.renderImage(screen, 'aesprites/rookwhite.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
+        else:
+            imagerenderer.renderImage(screen, 'aesprites/rookblack.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
 
     def getVisibleTiles(self, pieces):
         directions = [
@@ -25,7 +28,7 @@ class Rook(Piece):
                     (0, 1), (0, -1),  # Vertical
                 ]
         
-        return helpers.checkLineTile(directions, self.x, self.y, pieces)
+        return helpers.checkLineTile(directions, self.x, self.y, self.color, pieces)
 
 
 class Knight(Piece):
@@ -37,8 +40,10 @@ class Knight(Piece):
         print("not done")
 
     def render(self, screen, imagerenderer):
-        color = (0, 255, 255)
-        pygame.draw.rect(screen, color, (self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize))
+        if self.color == "white":
+            imagerenderer.renderImage(screen, 'aesprites/whiteknight.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
+        else:
+            imagerenderer.renderImage(screen, 'aesprites/blackknight.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
 
     def getVisibleTiles(self, pieces):
         chessboard = [[None for _ in range(8)] for _ in range(8)]
@@ -67,14 +72,16 @@ class Bishop(Piece):
         print("not done")
 
     def render(self, screen, imagerenderer):
-        color = (0, 255, 255)
-        pygame.draw.rect(screen, color, (self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize))
+        if self.color == "white":
+            imagerenderer.renderImage(screen, 'aesprites/whitebishop.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
+        else:
+            imagerenderer.renderImage(screen, 'aesprites/blackbishop.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
     def getVisibleTiles(self, pieces):
         directions = [
                     (1, 1), (-1, -1), (1, -1), (-1, 1)  # Diagonal
                 ]
         
-        return helpers.checkLineTile(directions, self.x, self.y, pieces)
+        return helpers.checkLineTile(directions, self.x, self.y, self.color, pieces)
 
 class Queen(Piece):
     def __init__(self, color, x, y):
@@ -85,8 +92,10 @@ class Queen(Piece):
         print("not done")
 
     def render(self, screen, imagerenderer):
-        color = (0, 255, 255)
-        pygame.draw.rect(screen, color, (self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize))
+        if self.color == "white":
+            imagerenderer.renderImage(screen, 'aesprites/whitequeen.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
+        else:
+            imagerenderer.renderImage(screen, 'aesprites/blackqueen.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
 
     def getVisibleTiles(self, pieces):
         directions = [
@@ -95,7 +104,7 @@ class Queen(Piece):
                     (1, 1), (-1, -1), (1, -1), (-1, 1)  # Diagonal
                 ]
         
-        return helpers.checkLineTile(directions, self.x, self.y, pieces)
+        return helpers.checkLineTile(directions, self.x, self.y, self.color, pieces)
 
 class King(Piece):
     def __init__(self, color, x, y):
@@ -106,8 +115,10 @@ class King(Piece):
         print("not done")
 
     def render(self, screen, imagerenderer):
-        color = (0, 255, 255)
-        pygame.draw.rect(screen, color, (self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize))
+        if self.color == "white":
+            imagerenderer.renderImage(screen, 'aesprites/whiteking.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
+        else:
+            imagerenderer.renderImage(screen, 'aesprites/blackking.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
 
     def getVisibleTiles(self, pieces):
         chessboard = [[None for _ in range(8)] for _ in range(8)]
@@ -137,15 +148,26 @@ class Pawn(Piece):
         print("not done")
 
     def render(self, screen, imagerenderer):
-        imagerenderer.renderImage(screen, 'aesprites/whitepawn.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
+        if self.color == "white":
+            imagerenderer.renderImage(screen, 'aesprites/whitepawn.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
+        else:
+            imagerenderer.renderImage(screen, 'aesprites/blackpawn.png', self.x * helpers.boardSpaceSize, self.y * helpers.boardSpaceSize, helpers.boardSpaceSize, helpers.boardSpaceSize)
 
     def getVisibleTiles(self, pieces):
         chessboard = [[None for _ in range(8)] for _ in range(8)]
 
         # not gonna pretend these are ordered
-        accessibleTileOffsets = [(1, 0), (-1, 0), (1, 1), (-1, -1), 
-                                (0, 1), (0, -1), (1, -1), (-1, 1)
+        accessibleTileOffsets = []
+        if self.color == "white":
+            accessibleTileOffsets = [(0, -1)
                                 ]
+            if self.y == 6:
+                accessibleTileOffsets += [(0, -2)]
+        else:
+            accessibleTileOffsets = [(0, 1)
+                                ]
+            if self.y == 1:
+                accessibleTileOffsets += [(0, 2)]
 
         for offset in accessibleTileOffsets:
             for piece in pieces:
