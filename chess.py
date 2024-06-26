@@ -19,7 +19,8 @@ while True:
         pygame.quit()
         sys.exit()
     if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == pygame.BUTTON_LEFT):
-       print("lmp")
+       x, y = pygame.mouse.get_pos()
+       board.click(x, y)
 
     screen.fill((0, 0, 0))  # Fill with black to clear previous drawings
 

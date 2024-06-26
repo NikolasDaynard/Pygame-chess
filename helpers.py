@@ -1,0 +1,1 @@
+boardSpaceSize = 480 / 8
