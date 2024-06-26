@@ -6,8 +6,13 @@ pygame.init()
 
 screen = pygame.display.set_mode((640, 480))
 # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+# image = pygame.image.load('aesprites/whitepawn.png')
+
 
 board = drawChess.chessBoard()
+
+clock = pygame.time.Clock()
+
 
 def render():
     board.drawBoard(screen)
@@ -27,6 +32,8 @@ while True:
     render()
 
     pygame.display.flip()
+
+    clock.tick(60)
 
 
 
